@@ -1,13 +1,13 @@
 # KsaNL.md- 
 
 
-- 📫 How to reach me ...
 # Hey there! 👋
 - ![Info](https://github-readme-stats.vercel.app/api?username=KsaNL&show_icons=true)
 - ☀ PERFECT ☀ ELEGANT ☀ EFFICIENT☀ 
 - My name is KsaNL, I'm a self-taught C++ programmer and love to explore 🚀! 
 ## About Me
 
+- 📫 How to reach me ...
 - 👀 I’m interested in ...
 - 💞️ I’m looking to collaborate on ...
 - 🔭 I’m currently working on improving my language skills.
@@ -30,5 +30,6 @@
 
 ## Contact Me
 
-💬 You can contact me in many ways, If you'd like to get in touch with me❤️
+💬 You can contact me in many ways, If you'd like to get in touch with me, ❤️
 📧 you can just search [KsaNL] in many platform like twitter and etc... 😄
+📫 Or just mail to 'gaishibz@foxmail.com' 🤺
