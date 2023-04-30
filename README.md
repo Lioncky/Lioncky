@@ -1,4 +1,7 @@
-# KsaNL.md
+# KsaNL.md- 
+- ☀ PERFECT ☀
+- ☀ ELEGANT ☀
+- ☀ EFFICIENT☀ 
 -
 - 👋 Hi, I’m @KsaNL
 - 👀 I’m interested in ...
