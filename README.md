@@ -7,11 +7,10 @@
 - My name is KsaNL, I'm a self-taught C++ programmer and love to explore 🚀! 
 ## About Me
 
-- 📫 How to reach me ...
-- 👀 I’m interested in ...
-- 💞️ I’m looking to collaborate on ...
+- 👀 I’m interested in life
 - 🔭 I’m currently working on improving my language skills.
 - 🌱 I’m constantly learning and updating my knowledge base.
+- 💞️ I have a golden retriever named Anan, who is my nice friend.
 - 💡 I love helping people find answers to their questions and providing helpful insights.
 - 🤖 I enjoy learning about AI and machine learning.
 - 🎮 In my free time, I like playing video games.
@@ -26,10 +25,9 @@
 
 🕹️ I'm a gaming enthusiast and love to explore new games and challenge.
 
-🎸 I also enjoy playing guitar in my free time and find it a great way to relax and unwind.
+🎸 I also enjoy playing Ukulele in my free time and find it a great way to relax and unwind.
 
 ## Contact Me
 
-💬 You can contact me in many ways, If you'd like to get in touch with me, ❤️
-📧 you can just search [KsaNL] in many platform like twitter and etc... 😄
-📫 Or just mail to 'gaishibz@foxmail.com' 🤺
+💬 You can contact me in many ways, If you'd like to get in touch with me,
+📫 just mail to 'gaishibz@foxmail.com', I also go by the same name on many other platforms. 
