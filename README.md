@@ -2,7 +2,7 @@
 - ![Info](https://github-readme-stats.vercel.app/api?username=KsaNL&show_icons=true)
 - ☀ PERFECT ☀ ELEGANT ☀ EFFICIENT☀ 
 - My name is KsaNL, I'm a self-taught C++ programmer and love to explore 🚀! 
-## About Me
+## About
 
 - 👀 I’m interested in life
 - 🔭 I’m currently working on improving my language skills.
@@ -24,7 +24,7 @@
 
 🎸 I also enjoy playing Ukulele in my free time and find it a great way to relax and unwind.
 
-## Contact Me
+## Contact
 
 💬 You can contact me at many ways, I also go by the same name on many other platforms.
 
