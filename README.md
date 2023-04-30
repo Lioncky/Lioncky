@@ -1,6 +1,5 @@
 # KsaNL.md
 -
-README.md
 👋 Hi, I’m @KsaNL
 👀 I’m interested in ...
 🌱 I’m currently learning ...
