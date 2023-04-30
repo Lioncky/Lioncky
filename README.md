@@ -26,5 +26,5 @@
 
 ## Contact Me
 
-💬 You can contact me in many ways, If you'd like to get in touch with me,
-📫 just mail to 'gaishibz@foxmail.com', I also go by the same name on many other platforms. 
+💬 You can contact me at many ways, I also go by the same name on many other platforms. 
+📫 If you'd like to get in touch with me, just mail to 'gaishibz@foxmail.com'.
