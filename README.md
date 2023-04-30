@@ -5,7 +5,7 @@
 # Hey there! 👋
 - ![Info](https://github-readme-stats.vercel.app/api?username=KsaNL&show_icons=true)
 - ☀ PERFECT ☀ ELEGANT ☀ EFFICIENT☀ 
-My name is KsaNL, I'm a self-taught C++ programmer and love to explore 🚀! 
+- My name is KsaNL, I'm a self-taught C++ programmer and love to explore 🚀! 
 ## About Me
 
 - 👀 I’m interested in ...
