@@ -1,0 +1,1 @@
+wget -q --no-check-certificate -O /usr/bin/aabt https://ghfast.top/https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/az/aabtx.sh && chmod +x /usr/bin/aabt && aabt
