@@ -1,0 +1,1 @@
+wget -q --no-check-certificate -O /usr/bin/hihy https://ghfast.top/https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/az/hihyx.sh && chmod +x /usr/bin/hihy && hihy
