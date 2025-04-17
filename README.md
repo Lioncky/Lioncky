@@ -1,5 +1,5 @@
 
-| SSDT													| 22621 | 07601 | 03790 |  RET  |
+| SSDT                                                  | 22621 | 07601 | 03790 |  [RET](https://github.com/Lioncky/Lioncky/tree/main/doc/ntdll)  |
 |-------------------------------------------------------|-------|-------|-------|-------|
 |NtAccessCheck											| 0x00  | 0x61  | 0x61  | 0x20  |
 |NtWorkerFactoryWorkerReady								| 0x01  | 0x190 | [-](https://github.com/Lioncky/Lioncky/blob/main/@.md)	| 0x04  |

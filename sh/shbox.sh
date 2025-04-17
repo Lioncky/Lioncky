@@ -236,61 +236,50 @@ oneinstack(){
 }
 
 update_debian(){
-
-	bash <(curl -sSL https://ghfast.top/raw.githubusercontent.com/wikihost-opensource/linux-toolkit/main/system-upgrade/debian.sh)
-	
+	bash <(curl -sSL https://ghfast.top/raw.githubusercontent.com/wikihost-opensource/linux-toolkit/main/system-upgrade/debian.sh)	
 }
 
 check_root
 
 echo -e "${Info} 选择你要使用的功能: "
-echo -e "1.首次运行\n2.安装docker\n3.安装bbr\n4.魔法上网\n5.回程路由(TCP)\n6.回程路由(ICMP)\n7.流媒体测试\n8.superbench\n9.yabs\n10.LemonBench\n11.IO测试\n12.全网测速\n13.探针安装\n14.本地IP\n15.极光面板\n16.闲蛋面板\n17.DD系统\n18.建站环境\n19.升级Debian(自动执行谨慎操作)"
-read -p "输入数字以选择:" function
+echo -e "1.首次运行\n2.安装docker\n3.安装bbr\n4.魔法上网\n5.回程路由(TCP)\n6.回程路由(ICMP)"
+echo -e "7.流媒体测试\n8.superbench\n9.yabs\n10.LemonBench\n11.IO测试\n12.全网测速\n13.探针安装"
+echo -e "14.本地IP\n15.极光面板\n16.闲蛋面板\n17.DD系统\n18.建站环境\n19.升级Debian(自动执行谨慎操作)"
+echo -e "81.一键Hy\t 82.一键aabt(aapanel_zh)\n"
+read -p "请选择:" nums
 
-	while [[ ! "${function}" =~ ^([1-9]|1[0-9])$ ]]
+	while [[ ! "${nums}" =~ ^([1-9]|1[0-9]|8[0-9])$ ]]
 		do
 			echo -e "${Error} 缺少或无效输入"
-			echo -e "${Info} 请重新选择" && read -p "输入数字以选择:" function
+			echo -e "${Info} 请重新选择" && read -p "输入数字以选择:" nums
 		done
 
-	if [[ "${function}" == "1" ]]; then
-		first
-	elif [[ "${function}" == "2" ]]; then
-		doc
-	elif [[ "${function}" == "3" ]]; then
-		tcpx
-	elif [[ "${function}" == "4" ]]; then
-		proxy
-	elif [[ "${function}" == "5" ]]; then
-		hc
-	elif [[ "${function}" == "6" ]]; then
-		ihc
-	elif [[ "${function}" == "7" ]]; then
-		nfcheck
-	elif [[ "${function}" == "8" ]]; then
-		superbench
-	elif [[ "${function}" == "9" ]]; then
-		yabs
-	elif [[ "${function}" == "10" ]]; then
-		lb
-	elif [[ "${function}" == "11" ]]; then
-		io
-	elif [[ "${function}" == "12" ]]; then
-		speed
-	elif [[ "${function}" == "13" ]]; then
-		tz
-	elif [[ "${function}" == "14" ]]; then
-		ipcheck
-	elif [[ "${function}" == "15" ]]; then
-		jg
-	elif [[ "${function}" == "16" ]]; then
-		xd
-	elif [[ "${function}" == "17" ]]; then
-		ddxt
-	elif [[ "${function}" == "18" ]]; then
-		lnmps
-	elif [[ "${function}" == "19" ]]; then
-		update_debian
+	if   [[ "${nums}" == "1" ]]; then first
+	elif [[ "${nums}" == "2" ]]; then doc
+	elif [[ "${nums}" == "3" ]]; then tcpx
+	elif [[ "${nums}" == "4" ]]; then proxy
+	elif [[ "${nums}" == "5" ]]; then hc
+	elif [[ "${nums}" == "6" ]]; then ihc
+	elif [[ "${nums}" == "7" ]]; then nfcheck
+	elif [[ "${nums}" == "8" ]]; then superbench
+	elif [[ "${nums}" == "9" ]]; then yabs
+	elif [[ "${nums}" == "10" ]]; then lb
+	elif [[ "${nums}" == "11" ]]; then io
+	elif [[ "${nums}" == "12" ]]; then speed
+	elif [[ "${nums}" == "13" ]]; then tz
+	elif [[ "${nums}" == "14" ]]; then ipcheck
+	elif [[ "${nums}" == "15" ]]; then jg
+	elif [[ "${nums}" == "16" ]]; then xd
+	elif [[ "${nums}" == "17" ]]; then ddxt
+	elif [[ "${nums}" == "18" ]]; then lnmps
+	elif [[ "${nums}" == "19" ]]; then update_debian
+		
+	elif [[ "${nums}" == "80" ]]; then  # show ip
+		curl http://ip.3322.net
+	elif [[ "${nums}" == "81" ]]; then  # hihy 
+		wget -q --no-check-certificate -O /usr/bin/hihy https://ghfast.top/https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/az/hihy.sh && chmod +x /usr/bin/hihy && hihy
+	elif [[ "${nums}" == "82" ]]; then  # aabt
+		wget -q --no-check-certificate -O /usr/bin/aabt https://ghfast.top/https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/az/aabt.sh && chmod +x /usr/bin/aabt && aabt
 	else
-		echo -e "${Info} 请重新选择" && read -p "输入数字选择:" function
+		echo -e "${Info} 输入无效" && read -p "输入数字选择:" nums
 	fi
