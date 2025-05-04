@@ -8,8 +8,6 @@ echo -e "${Green_font}
 #======================================
 # Project: shbox
 # Version: 0.0.3
-# 推荐机场:   垃圾场加速器
-# 注册地址:   https://lajic.eu/index.php#/register?code=OAM8uBQl
 #======================================
 ${Font_suffix}"
 
@@ -239,22 +237,34 @@ update_debian(){
 	bash <(curl -sSL https://ghfast.top/raw.githubusercontent.com/wikihost-opensource/linux-toolkit/main/system-upgrade/debian.sh)	
 }
 
+x_shbox(){
+	curl -fsSL -k https://ghfast.top/https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/shbox.sh -o /usr/bin/bx && chmod +x /usr/bin/bx && bx
+}
+x_hihy(){
+	curl -fsSL -k -o /usr/bin/hihy https://ghfast.top/https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/az/hihy.sh && chmod +x /usr/bin/hihy && hihy
+}
+x_aabt(){
+	wget -q --no-check-certificate -O /usr/bin/aabt https://ghfast.top/https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/az/aabt.sh && chmod +x /usr/bin/aabt && aabt
+}
+
 check_root
 
-echo -e "${Info} 选择你要使用的功能: "
-echo -e "1.首次运行\n2.安装docker\n3.安装bbr\n4.魔法上网\n5.回程路由(TCP)\n6.回程路由(ICMP)"
-echo -e "7.流媒体测试\n8.superbench\n9.yabs\n10.LemonBench\n11.IO测试\n12.全网测速\n13.探针安装"
-echo -e "14.本地IP\n15.极光面板\n16.闲蛋面板\n17.DD系统\n18.建站环境\n19.升级Debian(自动执行谨慎操作)"
-echo -e "81.一键Hy\t 82.一键aabt(aapanel_zh)\n"
+echo -e "${Info} 2025-050332: "
+echo -e "${Info} 选择你要使用的功能: \033[33m"
+echo -e "0.自我更新\t 1.首次运行\t 2.安装docker\t 3.安装bbr\t 4.魔法上网\t 5.回程路由(TCP)\t 6.回程路由(ICMP)"
+echo -e "7.流媒体测试\t 8.superbench\t 9.yabs测试\t 10.LemonBench\t 11.IO测试\t 12.全网测速\t 13.探针安装"
+echo -e "14.本地IP\t 15.极光面板\t 16.闲蛋面板\t 17.DD系统\t 18.建站环境\t 19.升级Debian(自动执行谨慎操作)\n"
+echo -e "\033[96m80.本机IP3322\t 81.一键安装Hy\t 82.一键安装宝塔aapanel_zh\033[0m\n"
 read -p "请选择:" nums
 
-	while [[ ! "${nums}" =~ ^([1-9]|1[0-9]|8[0-9])$ ]]
-		do
-			echo -e "${Error} 缺少或无效输入"
-			echo -e "${Info} 请重新选择" && read -p "输入数字以选择:" nums
-		done
+	#while [[ ! "${nums}" =~ ^([0-9]|1[0-9]|8[0-9])$ ]]
+	#	do
+	#		echo -e "${Error} 缺少或无效输入"
+	#		echo -e "${Info} 请重新选择" && read -p "输入数字以选择:" nums
+	#	done
 
-	if   [[ "${nums}" == "1" ]]; then first
+	if   [[ "${nums}" == "0" ]]; then x_shbox  
+	elif [[ "${nums}" == "1" ]]; then first
 	elif [[ "${nums}" == "2" ]]; then doc
 	elif [[ "${nums}" == "3" ]]; then tcpx
 	elif [[ "${nums}" == "4" ]]; then proxy
@@ -274,12 +284,9 @@ read -p "请选择:" nums
 	elif [[ "${nums}" == "18" ]]; then lnmps
 	elif [[ "${nums}" == "19" ]]; then update_debian
 		
-	elif [[ "${nums}" == "80" ]]; then  # show ip
-		curl http://ip.3322.net
-	elif [[ "${nums}" == "81" ]]; then  # hihy 
-		wget -q --no-check-certificate -O /usr/bin/hihy https://ghfast.top/https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/az/hihy.sh && chmod +x /usr/bin/hihy && hihy
-	elif [[ "${nums}" == "82" ]]; then  # aabt
-		wget -q --no-check-certificate -O /usr/bin/aabt https://ghfast.top/https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/az/aabt.sh && chmod +x /usr/bin/aabt && aabt
+	elif [[ "${nums}" == "80" ]]; then  curl http://ip.3322.net  # show ip
+	elif [[ "${nums}" == "81" ]]; then  x_hihy 
+	elif [[ "${nums}" == "82" ]]; then  x_aabt
 	else
 		echo -e "${Info} 输入无效" && read -p "输入数字选择:" nums
 	fi

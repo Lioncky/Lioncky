@@ -75,7 +75,7 @@ async def update_depot_keys(depot_keys):
 
         steam_config = (content.setdefault("InstallConfigStore", {})
           .setdefault("Software", {})
-          .setdefault("valve", {})
+          .setdefault("Valve", {})
           .setdefault("Steam", {})
         )
 

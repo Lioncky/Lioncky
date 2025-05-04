@@ -109,11 +109,11 @@ function checkSystemForUpdate() {
 
 function uninstall(){
 	rm -r /usr/bin/hihy
-    bash <(curl -fsSL https://git.io/rmhysteria.sh)
+	bash <(curl -fsSL https://raw.githubusercontent.com/emptysuns/Hi_Hysteria/a40d4d12b41b48ebf795b5f6a31a01ea5f9dfd73/server/uninstall.sh)
 }
 
 function reinstall(){
-    bash <(curl -fsSL https://git.io/rehysteria.sh)
+    bash <(curl -fsSL https://raw.githubusercontent.com/emptysuns/Hi_Hysteria/a40d4d12b41b48ebf795b5f6a31a01ea5f9dfd73/server/reinstall.sh)
 }
 
 function printMsg(){
