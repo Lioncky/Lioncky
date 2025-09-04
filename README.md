@@ -1,8 +1,8 @@
-<img align="right" src="https://github-readme-stats.vercel.app/api?username=Lioncky&include_all_commits=true&show_icons=true&theme=buefy&count_private=true&hide_border=true" />
+<img align="right" src="https://github-readme-stats.vercel.app/api?username=Lioncky&include_all_commits=true&show_icons=true&theme=dark&count_private=true&hide_border=true#gh-dark-mode-only" />
 
 #### 🐾 Visitor
 ![:reindex-ot](https://count.getloli.com/get/@:Numbersf)
----
+
 | [SSDT](https://github.com/Lioncky/Lioncky/blob/main/@.md) | 22621 | 07601 | 03790 | 02600 | [RET](https://github.com/Lioncky/Lioncky/tree/main/doc/ntdll)   |
 |-------------------------------------------------------|-------|-------|-------|-------|-------|
 |NtAccessCheck											| 0x00  | 0x61  | 0x61  | 0x01  | 0x20  |
