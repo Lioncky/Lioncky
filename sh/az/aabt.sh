@@ -39,7 +39,7 @@ bash "/root/bt-install.sh"
 function downgrade-aapanel(){
 wget -O "/root/LinuxPanel_EN-6.8.23.zip" "https://github.com/AaronYES/aapanel/releases/download/1.0/LinuxPanel_EN-6.8.23.zip"
 red "下载完成,正在降级."
-unzip LinuxPanel_EN-6.8.23.zip
+unzip -o LinuxPanel_EN-6.8.23.zip
 cd /root/panel
 wget -O "/root/panel/downgrade.sh" "https://raw.githubusercontent.com/AaronYES/aapanel/main/script/downgrade.sh" 
 bash "/root/panel/downgrade.sh"
