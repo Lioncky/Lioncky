@@ -225,9 +225,13 @@ x_aabt(){
 x_ovpn(){
 	wget --no-check-certificate https://raw.githubusercontent.com/Nyr/openvpn-install/master/openvpn-install.sh -O /usr/bin/ovpn && chmod +x /usr/bin/ovpn && ovpn
 }
+x_iptest(){
+	bash <(curl -Ls https://Check.Place) -I
+}
 x_socat(){
 	apt update 
 	apt install ufw 
+	apt install curl -y
 	apt install socat -y
 }
 
@@ -310,13 +314,14 @@ x_help(){
 x_help_private(){
 	echo -e "\tnohup socat TCP-LISTEN:6090,fork TCP:203.55.176.167:33306 > /dev/null 2>&1 &"
 	echo -e "\tnohup /etc/hihy/bin/appS --log-level info -c /root/xia.json client >/dev/null 2>&1 &"
+	echo -e "\tnohup /usr/local/x-ui/bin/xray-linux-amd64 -c /root/hy.json 2>&1 &"
 }
 
 check_root
 
 echo -e "${Info}选择你要使用的功能: \033[95m \033[92m\t0.帮助 \t 00.自我更新 ~"
-echo -e "[功能]1.端口占用 \t2.端口转发\t 3.查找进程\t 4.杀死进程\t5.禁止端口\t6.放行端口\t8.添加ssh公钥\t9.IP-3322\n"
-echo -e "\033[95m[安装]\n111.一键Hy\t 222.宝塔aapanel_zh\t 333.OpenVPN\t444.[x-ui]\t555.端口转发socat(首次运行)\t"
+echo -e "[功能]1.端口占用 \t2.端口转发\t 3.查找进程\t 4.杀死进程\t5.禁止端口\t6.放行端口\t8.添加ssh公钥\t9.IP质量检测\t10.IP-3322\n"
+echo -e "\033[95m[安装]\n111.一键Hy\t 222.宝塔aapanel_zh\t 333.OpenVPN\t444.[x-ui]\t555初始化(curl/socat/ufw)\t"
 echo -e "666.yabs测试\t 777.全网测速\t 888.读写IO测试\t 999.流媒体测试 \t\n"
 
 echo -e "\033[33m34.本地IP\t 35.极光面板\t 36.闲蛋面板\t 37.DD系统\t 38.建站环境\t 39.升级Debian(自动执行谨慎操作)"
@@ -336,7 +341,8 @@ read -p "" nums
 	elif [[ "${nums}" == "5" ]]; then x_ufw_off
 	elif [[ "${nums}" == "6" ]]; then x_ufw_on
 	elif [[ "${nums}" == "8" ]]; then x_add_ssh
-	elif [[ "${nums}" == "9" ]]; then curl http://ip.3322.net  # show ip
+	elif [[ "${nums}" == "9" ]]; then x_iptest
+	elif [[ "${nums}" == "10" ]]; then curl http://ip.3322.net  # show ip
 
 	elif [[ "${nums}" == "111" ]]; then x_hihy 
 	elif [[ "${nums}" == "222" ]]; then x_aabt
@@ -357,6 +363,7 @@ read -p "" nums
 	elif [[ "${nums}" == "66" ]]; then ihc
 	elif [[ "${nums}" == "68" ]]; then superbench
 	elif [[ "${nums}" == "69" ]]; then LemonBench
+	elif [[ "${nums}" == "31" ]]; then bash <(curl -Ls https://Check.Place) -I
 	elif [[ "${nums}" == "33" ]]; then tz
 	elif [[ "${nums}" == "34" ]]; then ipcheck
 	elif [[ "${nums}" == "35" ]]; then jg
