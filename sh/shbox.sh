@@ -4,14 +4,14 @@
 #
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
-ColGreen="\033[32m" && ColRed="\033[31m" && ColNone="\033[0m"
 Info="${ColGreen}[Info]${ColNone}"
+ColGreen="\033[32m" && ColRed="\033[31m" && ColNone="\033[0m"
 Error="${ColRed}[Error]${ColNone}"
 ERR_NOT_NUM="❌ 输入0-9非法,请检查"
 echo -e "${ColGreen}
 #======================================
-# Project: shbox-2025-0925
-# Version: 6 
+# Project: shbox-2025-1019
+# Version: 7
 #======================================
 ${ColNone}"
 
@@ -233,6 +233,7 @@ x_socat(){
 	apt install ufw 
 	apt install curl -y
 	apt install socat -y
+	apt install unzip -y
 }
 
 ps_ef(){
@@ -297,10 +298,20 @@ x_add_ssh(){
 	read -p "输入要添加的ssh.pub: " ssh_pub
 	echo "$ssh_pub" >> ~/.ssh/authorized_keys
 	echo -e "已添加~ 正在重启<=>sshd..."
-	echo -e "若无效请检查nano /etc/ssh/sshd_config"
+	echo -e "若无效请检查 cat /etc/ssh/sshd_config | grep Pubkey"
+	echo -e "\t nano /etc/ssh/sshd_config"
 	echo -e "\t PubkeyAuthentication no->yes"
 	echo -e "\t systemctl restart sshd"
 	systemctl restart sshd
+}
+x_xray_reality(){
+	bash <(wget -qO- -o- https://github.com/233boy/Xray/raw/main/install.sh)
+}
+x_bbr(){
+	bash <(wget -qO- https://cdn.cmqos.com/bbr.sh)
+}
+x_backtrace(){
+	curl https://raw.githubusercontent.com/zhanghanyun/backtrace/main/install.sh -sSf | sh
 }
 
 x_help(){
@@ -324,6 +335,8 @@ echo -e "[功能]1.端口占用 \t2.端口转发\t 3.查找进程\t 4.杀死进�
 echo -e "\033[95m[安装]\n111.一键Hy\t 222.宝塔aapanel_zh\t 333.OpenVPN\t444.[x-ui]\t555初始化(curl/socat/ufw)\t"
 echo -e "666.yabs测试\t 777.全网测速\t 888.读写IO测试\t 999.流媒体测试 \t\n"
 
+echo -e "\033[34m[新的]\n11.XRAY-REALITY \t12.线路优化bbr\t13.三网回城\t14.NodeQuality\n"
+
 echo -e "\033[33m34.本地IP\t 35.极光面板\t 36.闲蛋面板\t 37.DD系统\t 38.建站环境\t 39.升级Debian(自动执行谨慎操作)"
 echo -e "61.首次运行\t 62.安装docker\t 63.安装bbr\t 64.魔法上网\t 65.回程路由(TCP)\t 66.回程路由(ICMP)"
 echo -e "68.superbench\t69.lemonbench\t  33.探针安装"
@@ -343,6 +356,12 @@ read -p "" nums
 	elif [[ "${nums}" == "8" ]]; then x_add_ssh
 	elif [[ "${nums}" == "9" ]]; then x_iptest
 	elif [[ "${nums}" == "10" ]]; then curl http://ip.3322.net  # show ip
+
+	elif [[ "${nums}" == "11" ]]; then x_xray_reality
+	elif [[ "${nums}" == "12" ]]; then x_bbr 
+	elif [[ "${nums}" == "13" ]]; then x_backtrace 
+	elif [[ "${nums}" == "14" ]]; then bash <(curl -sL https://run.NodeQuality.com) 
+
 
 	elif [[ "${nums}" == "111" ]]; then x_hihy 
 	elif [[ "${nums}" == "222" ]]; then x_aabt
