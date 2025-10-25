@@ -8,10 +8,11 @@ Info="${ColGreen}[Info]${ColNone}"
 ColGreen="\033[32m" && ColRed="\033[31m" && ColNone="\033[0m"
 Error="${ColRed}[Error]${ColNone}"
 ERR_NOT_NUM="❌ 输入0-9非法,请检查"
+VER="8"
 echo -e "${ColGreen}
 #======================================
-# Project: shbox-2025-1019
-# Version: 7
+# Project: shbox-2025-1025
+# Version: ${VER}
 #======================================
 ${ColNone}"
 
@@ -303,10 +304,11 @@ x_ufw_on(){
 x_iptable_init(){
 	sysctl -w net.ipv4.ip_forward=1
 	iptables -t nat -A POSTROUTING -j MASQUERADE
-	#iptables -t nat -L PREROUTING -n --line-numbers
 	echo "清理所有规则: \niptables -t nat -F\niptables -F"
 	echo "删除第 1 个规则\niptables -t nat -D PREROUTING 1"
 	echo "✅ IPTable-初始化完成"
+	echo "> iptables -t nat -L PREROUTING -n --line-numbers"
+	iptables -t nat -L PREROUTING -n --line-numbers
 }
 x_iptable_del(){
 	iptables -t nat -L PREROUTING -n --line-numbers
@@ -343,7 +345,7 @@ x_iptable_forward(){
 	iptables -t nat -A PREROUTING -p tcp --dport ${nums} -j DNAT --to-destination ${addr}:${targetnum}
 	sudo iptables -A FORWARD -p tcp --dport ${nums} -j ACCEPT
 	sudo iptables -A FORWARD -p tcp --sport ${nums} -j ACCEPT
-    echo "✅ socat 已后台运行 (PID=$!)"
+    echo "✅ iptables add(PID=$!)"
 }
 x_add_ssh(){
 	read -p "输入要添加的ssh.pub: " ssh_pub
@@ -381,13 +383,15 @@ x_help_private(){
 
 check_root
 
-echo -e "${Info}选择你要使用的功能: \033[95m \033[92m\t0.帮助 \t 00.自我更新\t 000.初始化(curl/socat/ufw) ~"
-echo -e "[功能]1.放行端口\t2.端口转发\t 3.查找进程\t 4.杀死进程\t5.禁止端口\t7.IPTable\t8.IPT转发\t9.IPT删除\t10.IP-3322\n"
-echo -e "\033[95m[安装]\n111.一键Hy\t 222.宝塔aapanel_zh\t 333.OpenVPN\t444.[x-ui]\t555Help提示\t"
-echo -e "666.yabs测试\t 777.全网测速\t 888.读写IO测试\t 999.流媒体测试 \t\n"
+echo -e "${Info}选择你要使用的功能: \033[95m \033[92m\t0.帮助 \t 00.自我更新\t 000.初始化~(curl/socat/ufw) ~"
+echo -e "[功能]\n1.放行端口\t2.禁止端口\t3.查找进程\t 4.杀死进程\t5.端口查询.\t"
+echo -e "6.端口转发\t7.IPTable\t8.IPT转发\t9.IPT删除\n"
 
-echo -e "\033[34m[新的]\n11.XRAY-REALITY 12.线路优化bbr\t13.三网回城\t14.IP质量检测\n"
-echo -e "15.NodeQuality\t16.IP解锁状态CP\t18.添加ssh公钥\n"
+echo -e "\033[95m[安装]\n111.一键Hy\t 222.宝塔aapanel_zh\t 333.OpenVPN\t444.[x-ui]\t555Help提示\t"
+echo -e "666.yabs测试\t 777.全网测速 \t 888.读写IO测试\t 999.流媒体测试 \t\n"
+
+echo -e "\033[34m[新的]\n11.XRAY-REALITY 12.线路优化bbr\t13.三网回城\t14.当前IP-3322\t"
+echo -e "15.NodeQuality\t16.IP解锁查看\t17.IP解锁完整\t18.添加ssh公钥\n"
 
 echo -e "\033[33m34.本地IP\t 35.极光面板\t 36.闲蛋面板\t 37.DD系统\t 38.建站环境\t 39.升级Debian(自动执行谨慎操作)"
 echo -e "61.首次运行\t 62.安装docker\t 63.安装bbr\t 64.魔法上网\t 65.回程路由(TCP)\t 66.回程路由(ICMP)"
@@ -400,22 +404,23 @@ read -p "" nums
 	elif [[ "${nums}" == "000" ]]; then x_pre_install 
 	
 	elif [[ "${nums}" == "1" ]]; then x_ufw_on
-	elif [[ "${nums}" == "2" ]]; then port_to
+	elif [[ "${nums}" == "2" ]]; then x_ufw_off
 	elif [[ "${nums}" == "3" ]]; then ps_ef
 	elif [[ "${nums}" == "4" ]]; then proc_kill
 	elif [[ "${nums}" == "5" ]]; then port_check
-	elif [[ "${nums}" == "6" ]]; then x_ufw_off
+	elif [[ "${nums}" == "6" ]]; then port_to
 	elif [[ "${nums}" == "7" ]]; then x_iptable_init
-	elif [[ "${nums}" == "8" ]]; then x_iptable_forward
+	elif [[ "${nums}" == "8" ]]; then x_iptable_forward #zf
 	elif [[ "${nums}" == "9" ]]; then x_iptable_del
-	elif [[ "${nums}" == "10" ]]; then curl http://ip.3322.net  # show ip
 
+	# elif [[ "${nums}" == "10" ]]; then 
 	elif [[ "${nums}" == "11" ]]; then x_xray_reality
 	elif [[ "${nums}" == "12" ]]; then x_bbr 
 	elif [[ "${nums}" == "13" ]]; then x_backtrace 
-	elif [[ "${nums}" == "14" ]]; then x_iptest
+	elif [[ "${nums}" == "14" ]]; then curl http://ip.3322.net  # show ip
 	elif [[ "${nums}" == "15" ]]; then bash <(curl -sL https://run.NodeQuality.com) 
 	elif [[ "${nums}" == "16" ]]; then bash <(curl -Ls https://Check.Place) -I
+	elif [[ "${nums}" == "17" ]]; then bash <(curl -Ls https://Check.Place)
 	elif [[ "${nums}" == "18" ]]; then x_add_ssh
 
 
