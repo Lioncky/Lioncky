@@ -8,10 +8,10 @@ Info="${ColGreen}[Info]${ColNone}"
 ColGreen="\033[32m" && ColRed="\033[31m" && ColNone="\033[0m"
 Error="${ColRed}[Error]${ColNone}"
 ERR_NOT_NUM="❌ 输入0-9非法,请检查"
-VER="8"
+VER="9.1"
 echo -e "${ColGreen}
 #======================================
-# Project: shbox-2025-1025
+# Project: shbox-2025-1121
 # Version: ${VER}
 #======================================
 ${ColNone}"
@@ -146,12 +146,16 @@ io(){
 	curl -fsSL https://raw.githubusercontent.com/jamespan2012/shbox/main/dependencies/superbench.sh | bash -s io
 }
 
-ipcheck(){
+x_ipcheck(){
+	echo -ne "3322: \t"
+	curl -s http://ip.3322.net  # show ip
+
+	echo "ip.p3terx.com:"
 	curl ip.p3terx.com -4
 	curl ip.p3terx.com -6
 }
 
-tz(){
+tzold(){
 	bash <(curl -fsSL https://raw.githubusercontent.com/cokemine/ServerStatus-Hotaru/master/status.sh)
 }
 
@@ -226,7 +230,7 @@ auto_update_bx(){
 		x_pre_install
 	fi
 	echo "install... /usr/bin/bx" #mv /root/shbox.sh /usr/bin/bx
-	curl -fsSL -k https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/shbox.sh -o /usr/bin/bx && chmod +x /usr/bin/bx && bx
+	curl -H "Cache-Control: no-cache" -H "Pragma: no-cache" -fsSL -k https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/shbox.sh -o /usr/bin/bx && chmod +x /usr/bin/bx && bx
 }
 x_hihy(){
 	curl -fsSL -k -o /usr/bin/hihy https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/az/hihy.sh && chmod +x /usr/bin/hihy && hihy
@@ -348,14 +352,33 @@ x_iptable_forward(){
     echo "✅ iptables add(PID=$!)"
 }
 x_add_ssh(){
-	read -p "输入要添加的ssh.pub: " ssh_pub
-	echo "$ssh_pub" >> ~/.ssh/authorized_keys
-	echo -e "已添加~ 正在重启<=>sshd..."
-	echo -e "若无效请检查 cat /etc/ssh/sshd_config | grep Pubkey"
+	echo -e "正在检查... cat /etc/ssh/sshd_config | grep Pubkey PermitRootLogin UsePAM"
+	conf="$(cat /etc/ssh/sshd_config)"
+	echo "--- Pubkey ---"
+	echo "$conf" | grep Pubkey
+
+	echo "--- PermitRootLogin prohibit-password ---"
+	echo "$conf" | grep prohibit-password
+
+	echo "--- UsePAM ---"
+	echo "$conf" | grep UsePAM
+
+	#cat /etc/ssh/sshd_config | tee >(grep Pubkey) >(grep prohibit-password) >(grep UsePAM) >/dev/null
+	# cat /etc/ssh/sshd_config | grep PubkeyAuthentication
+	# cat /etc/ssh/sshd_config | grep prohibit-password
+	# cat /etc/ssh/sshd_config | grep UsePAM
+
 	echo -e "\t nano /etc/ssh/sshd_config"
 	echo -e "\t PubkeyAuthentication no->yes"
+	echo -e "\t PermitRootLogin prohibit->without-password"
+
+	read -p "输入要添加的ssh.pub: " ssh_pub
+	if [[ -n "$ssh_pub" ]]; then
+		echo -e "已添加~ 正在重启<=>sshd..."
+		echo "$ssh_pub" >> ~/.ssh/authorized_keys
+		systemctl restart sshd
+	fi
 	echo -e "\t systemctl restart sshd"
-	systemctl restart sshd
 }
 x_xray_reality(){
 	bash <(wget -qO- -o- https://github.com/233boy/Xray/raw/main/install.sh)
@@ -387,15 +410,15 @@ echo -e "${Info}选择你要使用的功能: \033[95m \033[92m\t0.帮助 \t 00.�
 echo -e "[功能]\n1.放行端口\t2.禁止端口\t3.查找进程\t 4.杀死进程\t5.端口查询.\t"
 echo -e "6.端口转发\t7.IPTable\t8.IPT转发\t9.IPT删除\n"
 
+echo -e "\033[34m[新的]\n11.XRAY-REALITY 22.线路优化bbr\t33.三网回城\t44.当前IP-3322\t"
+echo -e "55.NodeQuality\t66.IP解锁查看\t77.IP解锁完整\t88.添加ssh公钥\n"
+
 echo -e "\033[95m[安装]\n111.一键Hy\t 222.宝塔aapanel_zh\t 333.OpenVPN\t444.[x-ui]\t555Help提示\t"
 echo -e "666.yabs测试\t 777.全网测速 \t 888.读写IO测试\t 999.流媒体测试 \t\n"
 
-echo -e "\033[34m[新的]\n11.XRAY-REALITY 12.线路优化bbr\t13.三网回城\t14.当前IP-3322\t"
-echo -e "15.NodeQuality\t16.IP解锁查看\t17.IP解锁完整\t18.添加ssh公钥\n"
-
-echo -e "\033[33m34.本地IP\t 35.极光面板\t 36.闲蛋面板\t 37.DD系统\t 38.建站环境\t 39.升级Debian(自动执行谨慎操作)"
-echo -e "61.首次运行\t 62.安装docker\t 63.安装bbr\t 64.魔法上网\t 65.回程路由(TCP)\t 66.回程路由(ICMP)"
-echo -e "68.superbench\t69.lemonbench\t  33.探针安装"
+echo -e "\033[33m32.本地IP\t 35.极光面板\t 36.闲蛋面板\t 37.DD系统\t 38.建站环境\t 39.升级Debian(自动执行谨慎操作)"
+echo -e "61.首次运行\t 62.安装docker\t 63.回程路由(ICMP)\t 64.魔法上网\t 65.回程路由(TCP)\t"
+echo -e "68.superbench\t69.lemonbench\t 133.探针安装\t 166. BBR"
 echo -e "\n\033[94m请选择:\033[0m"
 read -p "" nums
 
@@ -415,13 +438,13 @@ read -p "" nums
 
 	# elif [[ "${nums}" == "10" ]]; then 
 	elif [[ "${nums}" == "11" ]]; then x_xray_reality
-	elif [[ "${nums}" == "12" ]]; then x_bbr 
-	elif [[ "${nums}" == "13" ]]; then x_backtrace 
-	elif [[ "${nums}" == "14" ]]; then curl http://ip.3322.net  # show ip
-	elif [[ "${nums}" == "15" ]]; then bash <(curl -sL https://run.NodeQuality.com) 
-	elif [[ "${nums}" == "16" ]]; then bash <(curl -Ls https://Check.Place) -I
-	elif [[ "${nums}" == "17" ]]; then bash <(curl -Ls https://Check.Place)
-	elif [[ "${nums}" == "18" ]]; then x_add_ssh
+	elif [[ "${nums}" == "22" ]]; then x_bbr 
+	elif [[ "${nums}" == "33" ]]; then x_backtrace 
+	elif [[ "${nums}" == "44" ]]; then x_ipcheck 
+	elif [[ "${nums}" == "55" ]]; then bash <(curl -sL https://run.NodeQuality.com) 
+	elif [[ "${nums}" == "66" ]]; then bash <(curl -Ls https://Check.Place) -I
+	elif [[ "${nums}" == "77" ]]; then bash <(curl -Ls https://Check.Place)
+	elif [[ "${nums}" == "88" ]]; then x_add_ssh
 
 
 	elif [[ "${nums}" == "111" ]]; then x_hihy 
@@ -437,15 +460,15 @@ read -p "" nums
 	#首次安装
 	elif [[ "${nums}" == "61" ]]; then first
 	elif [[ "${nums}" == "62" ]]; then doc
-	elif [[ "${nums}" == "63" ]]; then tcpx
+	elif [[ "${nums}" == "63" ]]; then ihc
+	elif [[ "${nums}" == "163" ]]; then tcpx # BBR
 	elif [[ "${nums}" == "64" ]]; then proxy
 	elif [[ "${nums}" == "65" ]]; then hc
-	elif [[ "${nums}" == "66" ]]; then ihc
 	elif [[ "${nums}" == "68" ]]; then superbench
 	elif [[ "${nums}" == "69" ]]; then LemonBench
 	elif [[ "${nums}" == "31" ]]; then bash <(curl -Ls https://Check.Place) -I
-	elif [[ "${nums}" == "33" ]]; then tz
-	elif [[ "${nums}" == "34" ]]; then ipcheck
+	elif [[ "${nums}" == "133" ]]; then tzold
+	elif [[ "${nums}" == "32" ]]; then x_ipcheck
 	elif [[ "${nums}" == "35" ]]; then jg
 	elif [[ "${nums}" == "36" ]]; then xd
 	elif [[ "${nums}" == "37" ]]; then ddxt
