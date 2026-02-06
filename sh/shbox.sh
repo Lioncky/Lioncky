@@ -468,7 +468,7 @@ read -p "" nums
 	elif [[ "${nums}" == "666" ]]; then yabs
 	elif [[ "${nums}" == "777" ]]; then speed
 	elif [[ "${nums}" == "888" ]]; then bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)
-	elif [[ "${nums}" == "999" ]]; then bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/v2.6.2/install.sh)
+	elif [[ "${nums}" == "999" ]]; then bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) v2.6.2
  
 	
 	elif [[ "${nums}" == "23" ]]; then x_ipcheck
