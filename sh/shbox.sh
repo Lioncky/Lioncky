@@ -8,10 +8,10 @@ Info="${ColGreen}[Info]${ColNone}"
 ColGreen="\033[32m" && ColRed="\033[31m" && ColNone="\033[0m"
 Error="${ColRed}[Error]${ColNone}"
 ERR_NOT_NUM="❌ 输入0-9非法,请检查"
-VER="9.1"
+VER="9.2"
 echo -e "${ColGreen}
 #======================================
-# Project: shbox-2025-1121
+# Project: shbox-2026-0207
 # Version: ${VER}
 #======================================
 ${ColNone}"
@@ -244,6 +244,10 @@ x_ovpn(){
 x_iptest(){
 	bash <(curl -Ls https://Check.Place) -I
 }
+x_docker(){
+	curl -fsLS https://get.docker.com | bash
+	echo | adduser $(id -un) docker
+}
 
 ps_ef(){
     read -p "输入进程标识符: " pnames
@@ -351,9 +355,15 @@ x_iptable_forward(){
 	sudo iptables -A FORWARD -p tcp --sport ${nums} -j ACCEPT
     echo "✅ iptables add(PID=$!)"
 }
+
+x_allow_pubkey(){
+	sed -i -E 's/^[#[:space:]]*(PubkeyAuthentication)[[:space:]]+(no|yes)$/\1 yes/' /etc/ssh/sshd_config
+	systemctl restart sshd
+}
 x_add_ssh(){
 	echo -e "正在检查... cat /etc/ssh/sshd_config | grep Pubkey PermitRootLogin UsePAM"
 	conf="$(cat /etc/ssh/sshd_config)"
+
 	echo "--- Pubkey ---"
 	echo "$conf" | grep Pubkey
 
@@ -369,11 +379,13 @@ x_add_ssh(){
 	# cat /etc/ssh/sshd_config | grep UsePAM
 
 	echo -e "\t nano /etc/ssh/sshd_config"
-	echo -e "\t PubkeyAuthentication no->yes"
 	echo -e "\t PermitRootLogin prohibit->without-password"
 
 	read -p "输入要添加的ssh.pub: " ssh_pub
 	if [[ -n "$ssh_pub" ]]; then
+		mkdir -p ~/.ssh && [ -f ~/.ssh/authorized_keys ] || touch ~/.ssh/authorized_keys
+		echo -e "\t PubkeyAuthentication no->yes"
+		sed -i -E 's/^[#[:space:]]*(PubkeyAuthentication)[[:space:]]+(no|yes)$/\1 yes/' /etc/ssh/sshd_config
 		echo -e "已添加~ 正在重启<=>sshd..."
 		echo "$ssh_pub" >> ~/.ssh/authorized_keys
 		systemctl restart sshd
@@ -408,17 +420,17 @@ check_root
 
 echo -e "${Info}选择你要使用的功能: \033[95m \033[92m\t0.帮助 \t 00.自我更新\t 000.初始化~(curl/socat/ufw) ~"
 echo -e "[功能]\n1.放行端口\t2.禁止端口\t3.查找进程\t 4.杀死进程\t5.端口查询.\t"
-echo -e "6.端口转发\t7.IPTable\t8.IPT转发\t9.IPT删除\n"
+echo -e "6.端口转发\t7.IPTable\t8.IPT转发\t9.IPT删除\t10.放行PubKey\n"
 
 echo -e "\033[34m[新的]\n11.XRAY-REALITY 22.线路优化bbr\t33.三网回城\t44.当前IP-3322\t"
-echo -e "55.NodeQuality\t66.IP解锁查看\t77.IP解锁完整\t88.添加ssh公钥\n"
+echo -e "55.NodeQuality\t66.IP解锁查看\t77.IP解锁完整\t88.添加ssh公钥\t99.一键docker\n"
 
-echo -e "\033[95m[安装]\n111.一键Hy\t 222.宝塔aapanel_zh\t 333.OpenVPN\t444.[x-ui]\t555Help提示\t"
-echo -e "666.yabs测试\t 777.全网测速 \t 888.读写IO测试\t 999.流媒体测试 \t\n"
+echo -e "\033[95m[安装]\n111.一键Hy\t 222.宝塔aapanel_zh\t 333.OpenVPN\t444.读写IO测试\t555Help提示\t"
+echo -e "666.yabs测试\t 777.全网测速 \t 888.3XUI\t 999.3XUI(2.6.2) \n"
 
-echo -e "\033[33m32.本地IP\t 35.极光面板\t 36.闲蛋面板\t 37.DD系统\t 38.建站环境\t 39.升级Debian(自动执行谨慎操作)"
+echo -e "\033[33m32.本地IP\t 33.老x-ui\t 35.极光面板\t 36.闲蛋面板\t 37.DD系统\t 38.建站环境\t 39.升级Debian(自动执行谨慎操作)"
 echo -e "61.首次运行\t 62.安装docker\t 63.回程路由(ICMP)\t 64.魔法上网\t 65.回程路由(TCP)\t"
-echo -e "68.superbench\t69.lemonbench\t 133.探针安装\t 166. BBR"
+echo -e "68.superbench\t69.lemonbench\t 133.探针安装\t 166. BBR\t 29.流媒体测试 \t"
 echo -e "\n\033[94m请选择:\033[0m"
 read -p "" nums
 
@@ -435,8 +447,8 @@ read -p "" nums
 	elif [[ "${nums}" == "7" ]]; then x_iptable_init
 	elif [[ "${nums}" == "8" ]]; then x_iptable_forward #zf
 	elif [[ "${nums}" == "9" ]]; then x_iptable_del
-
-	# elif [[ "${nums}" == "10" ]]; then 
+	elif [[ "${nums}" == "10" ]]; then x_allow_pubkey
+	
 	elif [[ "${nums}" == "11" ]]; then x_xray_reality
 	elif [[ "${nums}" == "22" ]]; then x_bbr 
 	elif [[ "${nums}" == "33" ]]; then x_backtrace 
@@ -445,17 +457,22 @@ read -p "" nums
 	elif [[ "${nums}" == "66" ]]; then bash <(curl -Ls https://Check.Place) -I
 	elif [[ "${nums}" == "77" ]]; then bash <(curl -Ls https://Check.Place)
 	elif [[ "${nums}" == "88" ]]; then x_add_ssh
+	elif [[ "${nums}" == "99" ]]; then x_docker
 
 
 	elif [[ "${nums}" == "111" ]]; then x_hihy 
 	elif [[ "${nums}" == "222" ]]; then x_aabt
 	elif [[ "${nums}" == "333" ]]; then x_ovpn
-	elif [[ "${nums}" == "444" ]]; then x_ui_install
+	elif [[ "${nums}" == "444" ]]; then io
 	elif [[ "${nums}" == "555" ]]; then x_help_private
 	elif [[ "${nums}" == "666" ]]; then yabs
 	elif [[ "${nums}" == "777" ]]; then speed
-	elif [[ "${nums}" == "888" ]]; then io
-	elif [[ "${nums}" == "999" ]]; then nfcheck
+	elif [[ "${nums}" == "888" ]]; then bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)
+	elif [[ "${nums}" == "999" ]]; then bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/v2.6.2/install.sh)
+ 
+	
+	elif [[ "${nums}" == "23" ]]; then x_ipcheck
+	elif [[ "${nums}" == "29" ]]; then nfcheck
 
 	#首次安装
 	elif [[ "${nums}" == "61" ]]; then first
@@ -466,9 +483,11 @@ read -p "" nums
 	elif [[ "${nums}" == "65" ]]; then hc
 	elif [[ "${nums}" == "68" ]]; then superbench
 	elif [[ "${nums}" == "69" ]]; then LemonBench
-	elif [[ "${nums}" == "31" ]]; then bash <(curl -Ls https://Check.Place) -I
 	elif [[ "${nums}" == "133" ]]; then tzold
+
+	
 	elif [[ "${nums}" == "32" ]]; then x_ipcheck
+	elif [[ "${nums}" == "34" ]]; then x_ui_install
 	elif [[ "${nums}" == "35" ]]; then jg
 	elif [[ "${nums}" == "36" ]]; then xd
 	elif [[ "${nums}" == "37" ]]; then ddxt
