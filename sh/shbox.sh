@@ -1,6 +1,6 @@
 #!/bin/bash
 # box auto update to /usr/bin/bx 
-# https://github.com/Lioncky/Lioncky/tree/main/sh
+# https://github.com/Lioncky/Lioncky/edit/main/sh/shbox.sh
 #
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
@@ -15,6 +15,14 @@ echo -e "${ColGreen}
 # Version: ${VER}
 #======================================
 ${ColNone}"
+
+auto_update_bx(){
+	if [ ! -e "/usr/bin/bx" ]; then
+		x_pre_install
+	fi
+	echo "install... /usr/bin/bx" #mv /root/shbox.sh /usr/bin/bx
+	curl -H "Cache-Control: no-cache" -H "Pragma: no-cache" -fsSL -k https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/shbox.sh -o /usr/bin/bx && chmod +x /usr/bin/bx && bx
+}
 
 check_root(){
 	[[ "`id -u`" != "0" ]] && echo -e "${Error} must be root user !" && exit 1
@@ -224,13 +232,6 @@ x_pre_install(){
 	apt install curl -y
 	apt install socat -y
 	apt install unzip -y
-}
-auto_update_bx(){
-	if [ ! -e "/usr/bin/bx" ]; then
-		x_pre_install
-	fi
-	echo "install... /usr/bin/bx" #mv /root/shbox.sh /usr/bin/bx
-	curl -H "Cache-Control: no-cache" -H "Pragma: no-cache" -fsSL -k https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/shbox.sh -o /usr/bin/bx && chmod +x /usr/bin/bx && bx
 }
 x_hihy(){
 	curl -fsSL -k -o /usr/bin/hihy https://raw.githubusercontent.com/Lioncky/Lioncky/refs/heads/main/sh/az/hihy.sh && chmod +x /usr/bin/hihy && hihy
