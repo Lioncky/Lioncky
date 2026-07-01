@@ -37,6 +37,27 @@ is_nums() {
     return 0 # Success return 0
 }
 
+x_block_ip() {
+    local ip=$1
+    local BLACKLIST="/var/blockip"
+    
+    # 如果没有传入IP，则交互输入
+    if [[ -z "$ip" ]]; then
+        read -p "请输入要拉黑的IP: " ip
+    fi
+    
+    # 简单验证IP
+    [[ ! $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]] && echo "无效IP" && return 1
+    
+    # 创建文件
+    touch $BLACKLIST
+    
+    # 添加到iptables
+    iptables -I INPUT -s $ip -j DROP
+
+    echo "Blocked $ip"
+}
+
 first(){
 	
 	apt update -y
@@ -421,7 +442,7 @@ check_root
 
 echo -e "${Info}选择你要使用的功能: \033[95m \033[92m\t0.帮助 \t 00.自我更新\t 000.初始化~(curl/socat/ufw) ~"
 echo -e "[功能]\n1.放行端口\t2.禁止端口\t3.查找进程\t 4.杀死进程\t5.端口查询.\t"
-echo -e "6.端口转发\t7.IPTable\t8.IPT转发\t9.IPT删除\t10.放行PubKey\n"
+echo -e "6.端口转发\t7.IPTable\t8.IPT转发\t9.IPT删除\t10.拉黑IP\n"
 
 echo -e "\033[34m[新的]\n11.XRAY-REALITY 22.线路优化bbr\t33.三网回城\t44.当前IP-3322\t"
 echo -e "55.NodeQuality\t66.IP解锁查看\t77.IP解锁完整\t88.添加ssh公钥\t99.一键docker\n"
@@ -448,7 +469,7 @@ read -p "" nums
 	elif [[ "${nums}" == "7" ]]; then x_iptable_init
 	elif [[ "${nums}" == "8" ]]; then x_iptable_forward #zf
 	elif [[ "${nums}" == "9" ]]; then x_iptable_del
-	elif [[ "${nums}" == "10" ]]; then x_allow_pubkey
+	elif [[ "${nums}" == "10" ]]; then x_block_ip
 	
 	elif [[ "${nums}" == "11" ]]; then x_xray_reality
 	elif [[ "${nums}" == "22" ]]; then x_bbr 
